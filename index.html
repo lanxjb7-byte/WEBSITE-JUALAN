@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WEBSITE JUALAN</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+overflow-x:hidden;
+}
+
+/* HEADER */
+.header{
+height:60px;
+background:#181818;
+display:flex;
+align-items:center;
+padding:0 15px;
+border-bottom:1px solid #333;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.menu-btn{
+font-size:24px;
+cursor:pointer;
+}
+
+/* SIDEBAR */
+.sidebar{
+position:fixed;
+top:0;
+left:-260px;
+width:250px;
+height:100%;
+background:#151515;
+transition:.3s;
+z-index:9999;
+padding-top:70px;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.sidebar button{
+width:100%;
+padding:15px;
+background:none;
+border:none;
+color:white;
+font-size:15px;
+text-align:left;
+cursor:pointer;
+}
+
+.sidebar button:hover{
+background:#222;
+}
+
+/* CONTENT */
+.content{
+padding:15px;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+.card{
+background:#181818;
+padding:15px;
+border-radius:15px;
+margin-top:15px;
+border:1px solid #333;
+}
+
+.title{
+font-size:22px;
+margin-bottom:15px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+background:#111;
+border:1px solid #333;
+border-radius:10px;
+color:white;
+}
+
+button.main{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#00c853;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.item{
+background:#111;
+padding:10px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.add-item{
+background:#2196f3;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+color:white;
+margin-top:10px;
+}
+
+.lanx-item{
+background:#111;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+</div>
+
+<div class="sidebar" id="sidebar">
+
+<button onclick="showPage('dashboard')">
+📊 DASHBOARD
+</button>
+
+<button onclick="showPage('lanxstore')">
+🛒 TOKO LANX
+</button>
+
+</div>
+
+<div class="content">
+
+<!-- DASHBOARD -->
+<div class="page active" id="dashboard">
+
+<div class="card">
+
+<div class="title">
+WEBSITE JUALAN
+</div>
+
+<input id="storeName"
+placeholder="Nama Toko">
+
+<input id="storeWA"
+placeholder="Nomor WhatsApp">
+
+<label>Upload QRIS</label>
+
+<input type="file"
+id="qrisFile"
+accept="image/*">
+
+<div id="items"></div>
+
+<button class="add-item"
+onclick="addItem()">
++ TAMBAH ITEM
+</button>
+
+<button class="main"
+onclick="createStore()">
+CREATE PRODUK 
+</button>
+
+<div id="storeResult"
+style="margin-top:15px;"></div>
+
+</div>
+
+</div>
+
+<!-- TOKO LANX -->
+<div class="page" id="lanxstore">
+
+<div class="card">
+
+<div class="title">
+WELCOME TO TOKO LANX
+</div>
+
+<div class="lanx-item">
+HEADLOCK XITX V1.0
+<br>
+Rp10.000
+</div>
+
+<div class="lanx-item">
+HEADLOCK XITX V2.0
+<br>
+Rp20.000
+</div>
+
+<div class="lanx-item">
+HEADLOCK XITX V3.0
+<br>
+Rp30.000
+</div>
+
+<div class="lanx-item">
+HEADLOCK XITX V4.0
+<br>
+Rp40.000
+</div>
+
+<div class="lanx-item">
+HEADLOCK XITX V5.0
+<br>
+Rp50. bh000
+</div>
+
+<div class="lanx-item">
+DRAG DIKIT HS 30%
+<br>
+Rp7.000
+</div>
+
+<div class="lanx-item">
+DRAG DIKIT HS 50%
+<br>
+Rp15.000
+</div>
+
+<div class="lanx-item">
+DRAG DIKIT HS 70%
+<br>
+Rp25.000
+</div>
+
+<div class="lanx-item">
+DRAG DIKIT HS 90%
+<br>
+Rp40.000
+</div>
+
+<div class="lanx-item">
+DRAG DIKIT HS BRUTAL
+<br>
+Rp70.000
+</div>
+
+<button
+onclick="window.open('https://wa.me/6282155521748?text=Halo%20saya%20ingin%20membeli%20jualan%20anda','_blank')"
+style="
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+background:#25D366;
+color:white;
+font-size:16px;
+cursor:pointer;
+">
+💬 CHAT UNTUK BELI
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleMenu(){
+
+document
+.getElementById("sidebar")
+.classList.toggle("active");
+
+}
+
+function showPage(id){
+
+document
+.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
+
+document
+.getElementById(id)
+.classList.add("active");
+
+document
+.getElementById("sidebar")
+.classList.remove("active");
+
+}
+
+let itemCount = 0;
+
+function addItem(){
+
+itemCount++;
+
+const div =
+document.createElement("div");
+
+div.className="item";
+
+div.innerHTML=`
+
+<input
+class="itemName"
+placeholder="Nama Item">
+
+<input
+class="itemPrice"
+placeholder="Harga Item">
+
+<input
+type="file"
+class="itemThumb"
+accept="image/*">
+
+`;
+
+document
+.getElementById("items")
+.appendChild(div);
+
+}
+
+</script>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAqTBhW9nTKveglp5VsYhfhgHCkqdTdb78",
+
+authDomain: "website-builder-ddf47.firebaseapp.com",
+
+databaseURL: "https://website-builder-ddf47-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId: "website-builder-ddf47",
+
+storageBucket: "website-builder-ddf47.firebasestorage.app",
+
+messagingSenderId: "94939304381",
+
+appId: "1:94939304381:web:4592c09a21a6bd511dc2d4",
+
+measurementId: "G-134FY0NNPC"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const CLOUD_NAME = "dajyrymp3";
+const UPLOAD_PRESET = "qris_upload";
+
+async function uploadImage(file){
+
+const formData = new FormData();
+
+formData.append("file", file);
+formData.append("upload_preset", UPLOAD_PRESET);
+
+const res = await fetch(
+`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+{
+method:"POST",
+body:formData
+}
+);
+
+const data = await res.json();
+
+if(data.error){
+throw new Error(data.error.message);
+}
+
+return data.secure_url;
+
+}
+
+function slugify(text){
+
+return text
+.toLowerCase()
+.trim()
+.replace(/\s+/g,"-")
+.replace(/[^a-z0-9-]/g,"");
+
+}
+
+window.createStore = async function(){
+
+try{
+
+const nama =
+document.getElementById("storeName").value;
+
+const wa =
+document.getElementById("storeWA").value;
+
+const qris =
+document.getElementById("qrisFile")
+.files[0];
+
+if(!nama || !wa || !qris){
+
+alert("Lengkapi data!");
+
+return;
+
+}
+
+document.getElementById(
+"storeResult"
+).innerHTML =
+"CREATE PRODUK/TUNGGU 1-7 MENIT";
+
+const qrisUrl = await uploadImage(qris);
+
+alert("PRODUK LOADING");
+
+const items = [];
+
+const allItems =
+document.querySelectorAll(".item");
+
+for(const item of allItems){
+
+const namaItem =
+item.querySelector(".itemName").value;
+
+const hargaItem =
+item.querySelector(".itemPrice").value;
+
+let thumbUrl = "";
+
+const thumb =
+item.querySelector(".itemThumb")
+.files[0];
+
+if(thumb){
+
+thumbUrl =
+await uploadImage(thumb);
+
+}
+
+items.push({
+
+nama:namaItem,
+
+harga:hargaItem,
+
+thumb:thumbUrl
+
+});
+
+}
+
+const slug =
+slugify(nama);
+
+await addDoc(
+collection(db,"stores"),
+{
+
+nama,
+
+slug,
+
+wa,
+
+qris:qrisUrl,
+
+items,
+
+createdAt:Date.now()
+
+}
+);
+alert("PRODUK CREATE SUCCESS");
+
+const storeLink =
+location.origin +
+"/store.html?toko=" +
+slug;
+
+document.getElementById(
+"storeResult"
+).innerHTML =
+
+`
+Link Toko:<br><br>
+
+<input
+value="${storeLink}"
+readonly
+style="
+width:100%;
+padding:10px;
+background:#111;
+color:white;
+border:1px solid #333;
+border-radius:10px;
+">
+
+<br><br>
+
+<button
+onclick="navigator.clipboard.writeText('${storeLink}')"
+style="
+width:100%;
+padding:12px;
+background:#2196f3;
+border:none;
+border-radius:10px;
+color:white;
+">
+
+SALIN LINK
+
+</button>
+`;
+
+}catch(err){
+
+alert(err.message);
+
+}
+
+}
+
+window.toggleMenu = toggleMenu;
+window.showPage = showPage;
+window.addItem = addItem;
+
+</script>
+
+</body>
+</html>

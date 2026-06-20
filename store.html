@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WEBSITE JUALAN</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+padding:15px;
+}
+
+#storeName{
+font-size:28px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.item{
+background:#181818;
+border:1px solid #333;
+border-radius:15px;
+padding:15px;
+margin-bottom:15px;
+}
+
+.item img{
+width:100%;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.price{
+color:#00e676;
+margin:10px 0;
+}
+
+.buyBtn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#00c853;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.modal-content{
+background:#181818;
+padding:20px;
+border-radius:15px;
+width:90%;
+max-width:400px;
+text-align:center;
+}
+
+.modal-content img{
+width:100%;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.waBtn{
+display:block;
+width:100%;
+padding:12px;
+background:#25D366;
+color:white;
+text-decoration:none;
+border-radius:10px;
+margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<h1 id="storeName">Loading...</h1>
+
+<div id="items"></div>
+
+<div class="modal" id="buyModal">
+<div class="modal-content">
+
+<h2>SCAN QRIS</h2>
+
+<img id="qrisImg">
+
+<a id="waBtn"
+class="waBtn"
+target="_blank">
+CHAT WHATSAPP
+</a>
+
+<br>
+
+<button class="buyBtn"
+onclick="closeModal()">
+TUTUP
+</button>
+
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+query,
+where,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyAqTBhW9nTKveglp5VsYhfhgHCkqdTdb78",
+
+authDomain: "website-builder-ddf47.firebaseapp.com",
+
+databaseURL: "https://website-builder-ddf47-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId: "website-builder-ddf47",
+
+storageBucket: "website-builder-ddf47.firebasestorage.app",
+
+messagingSenderId: "94939304381",
+
+appId: "1:94939304381:web:4592c09a21a6bd511dc2d4",
+
+measurementId: "G-134FY0NNPC"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const params =
+new URLSearchParams(location.search);
+
+const slug =
+params.get("toko");
+
+const q = query(
+collection(db,"stores"),
+where("slug","==",slug)
+);
+
+const snap =
+await getDocs(q);
+
+if(snap.empty){
+
+document.body.innerHTML=
+"<h1>Toko Tidak Ditemukan</h1>";
+
+}else{
+
+const data =
+snap.docs[0].data();
+
+document.getElementById(
+"storeName"
+).innerText =
+"WELCOME TO TOKO" + data.nama;
+
+data.items.forEach(item=>{
+
+document.getElementById(
+"items"
+).innerHTML += `
+
+<div class="item">
+
+<img src="${item.thumb}">
+
+<h3>${item.nama}</h3>
+
+<div class="price">
+Rp ${item.harga}
+</div>
+
+<button
+class="buyBtn"
+onclick="
+showBuy(
+'${data.qris}',
+'${data.wa}'
+)
+">
+BELI
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.showBuy = function(qris, wa){
+
+document.getElementById("buyModal").style.display = "flex";
+
+document.getElementById("qrisImg").src = qris;
+
+// ubah nomor 08xxxx jadi 628xxxx
+wa = wa.replace(/^0/, "62");
+
+document.getElementById("waBtn").href =
+`https://wa.me/${wa}?text=Halo%20saya%20ingin%20membeli%20produk%20anda`;
+
+};
+
+window.closeModal =
+function(){
+
+document
+.getElementById("buyModal")
+.style.display="none";
+
+};
+
+</script>
+
+</body>
+</html>
